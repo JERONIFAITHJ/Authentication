@@ -15,7 +15,6 @@ a{
     padding-top: 30px;
     width: 60%;
     margin: auto;
-    /* Hey - breach */
 }
 #button-cont{
     text-align: center;
@@ -167,7 +166,7 @@ p, ul{
     margin-bottom: 100px;
     padding: 30px;
     border-radius: 20px;
-    background-color: #97c680;
+    background: aliceblue;
 }
 #categories ul li{
     display: inline-block;
