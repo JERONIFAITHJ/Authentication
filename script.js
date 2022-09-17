@@ -20,6 +20,7 @@ const goToSignupForm = () => {
   document.querySelector("#signup-form").style.display = "block";
   document.querySelector("#login-form").style.display = "none";
   document.querySelector("#homePage").style.display = "none";
+  document.querySelector("#main-content").style.display = "none";
 };
 
 const goToLogninForm = () => {
@@ -30,6 +31,7 @@ const goToLogninForm = () => {
   document.querySelector("#login-form").style.display = "block";
   document.querySelector("#homePage").style.display = "none";
   document.querySelector("#signup-form").style.display = "none";
+  document.querySelector("#main-content").style.display = "none";
 };
 
 const homePage = () => {
@@ -40,7 +42,19 @@ const homePage = () => {
   document.querySelector("#login-form").style.display = "none";
   document.querySelector("#homePage").style.display = "block";
   document.querySelector("#signup-form").style.display = "none";
+  document.querySelector("#main-content").style.display = "none";
 };
+
+const landingPage = (userNameDisplay) => {
+  console.log(userNameDisplay);
+  document.querySelector('.nav-login').innerText = `Welcome ${userNameDisplay}`;
+
+  document.querySelector('#navBar').style.display = 'none';
+  document.querySelector("#login-form").style.display = "none";
+  document.querySelector("#homePage").style.display = "none";
+  document.querySelector("#signup-form").style.display = "none";
+  document.querySelector("#main-content").style.display = "block";
+}
 
 const modalPopUp = (message) => {
   const { modalHead, modalBody } = message;
@@ -206,14 +220,16 @@ const loginValidate = () => {
   let mail = document.querySelector('#logninMail').value;
   let pass = document.querySelector('#loginPass').value;
 
-  let res = userInfo.find(val => {
-    if(!val.mail === mail){
-      return;
-    }
-    return val.password === pass
-  })
+  let res = userInfo.find(val => val.mail === mail && val.password === pass);
+  console.log(res);
   if(res){
-    modalPopUp({ modalHead: "Success!", modalBody: "Logged in successfully" });
+    const userNameDisplay = userInfo.map(val => {
+      if(val.mail !== mail){
+        return
+      }
+      return val.firstName;
+    })
+    landingPage(userNameDisplay);  
   }
   else{
     modalPopUp({modalHead: 'Warning!', modalBody: 'Login credentials mismatch!'});
@@ -230,6 +246,7 @@ const resetLoginForm = () => {
 // Main Content
 let defaultCard = document.querySelector('.card-one');
 let defaultCardChild = defaultCard.children[0];
+// document.querySelector('.nav-login').innerText = `Welcome ${}`
 // console.log(defaultCardChild[0]);
 const cards = document.querySelectorAll('.cards');
 cards.forEach(val => {
