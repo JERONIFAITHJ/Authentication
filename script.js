@@ -46,14 +46,54 @@ const homePage = () => {
 };
 
 const landingPage = (userNameDisplay) => {
-  console.log(userNameDisplay);
-  document.querySelector('.nav-login').innerText = `Welcome ${userNameDisplay}`;
+  const welcomeText = document.querySelector('.nav-login');
+  welcomeText.innerText = `Welcome ${userNameDisplay}`;
+  welcomeText.style.fontSize = '30px'
+  welcomeText.style.color = '#97c680';
 
   document.querySelector('#navBar').style.display = 'none';
   document.querySelector("#login-form").style.display = "none";
   document.querySelector("#homePage").style.display = "none";
   document.querySelector("#signup-form").style.display = "none";
   document.querySelector("#main-content").style.display = "block";
+}
+
+let encryptionMessage = {
+  'A': 'N', 'B': 'O', 'C': 'P', 'D': 'Q',
+  'E': 'R', 'F': 'S', 'G': 'T', 'H': 'U',
+  'I': 'V', 'J': 'W', 'K': 'X', 'L': 'Y',
+  'M': 'Z', 'N': 'A', 'O': 'B', 'P': 'C',
+  'Q': 'D', 'R': 'E', 'S': 'F', 'T': 'G',
+  'U': 'H', 'V': 'I', 'W': 'J', 'X': 'K',
+  'Y': 'L', 'Z': 'M',
+  'a': 'n', 'b': 'o', 'c': 'p', 'd': 'q',
+  'e': 'r', 'f': 's', 'g': 't', 'h': 'u',
+  'i': 'v', 'j': 'w', 'k': 'x', 'l': 'y',
+  'm': 'z', 'n': 'a', 'o': 'b', 'p': 'c',
+  'q': 'd', 'r': 'e', 's': 'f', 't': 'g',
+  'u': 'h', 'v': 'i', 'w': 'j', 'x': 'k',
+  'y': 'l', 'z': 'm',
+  '0': '5', '1': '6', '2': '7', '3': '8',
+  '4': '9', '5': '0', '6': '1', '7': '2',
+  '8': '3', '9': '4',
+  '!': '#', '$': '%', '&': '+', '-': '@',
+  '': '~', '#': '!', '%': '$', '+': '&',
+  '@': '-', '~': ''
+}
+
+const encryption = (password) => {
+  let encryptedPassword = '';
+  for(let val = 0; val < password.length; val++){
+    encryptedPassword += encryptionMessage[password.at(val)];
+  }
+  return encryptedPassword;
+}
+const decryption = (password) => {
+  let decryptedPassword = '';
+  for(let index = 0; index < password.length; index++){
+    decryptedPassword += Object.keys(encryptionMessage).find(val => encryptionMessage[val] === password.at(index));
+  }
+  return decryptedPassword;
 }
 
 const modalPopUp = (message) => {
@@ -75,7 +115,6 @@ const modalPopUp = (message) => {
 
 // Adding user information to the array
 const addUserInfo = (info) => {
-  console.log("Received data...", info);
   const {
     firstNameValidation,
     lastNameValidation,
@@ -96,7 +135,7 @@ const addUserInfo = (info) => {
     lastName: lastNameValidation,
     mail: mailValidation,
     phone: phnoValidation,
-    password: passValidation,
+    password: encryption(passValidation),
   });
   signInForm();
   submitted = false;
@@ -168,7 +207,6 @@ const signUpValidate = (isSubmitted = false) => {
       error = false;
     }
     let holdPhno = parseInt(phnoValidation);
-    console.log(holdPhno);
     if (
       phnoValidation.length === 10 &&
       [...phnoValidation].every((val) => "1234567890".includes(val))
@@ -203,7 +241,6 @@ const signUpValidate = (isSubmitted = false) => {
       error = false;
     }
     if (error && isSubmitted) {
-      console.log("Sending data...");
       addUserInfo({
         firstNameValidation,
         lastNameValidation,
@@ -220,16 +257,10 @@ const loginValidate = () => {
   let mail = document.querySelector('#logninMail').value;
   let pass = document.querySelector('#loginPass').value;
 
-  let res = userInfo.find(val => val.mail === mail && val.password === pass);
-  console.log(res);
+  let res = userInfo.find(val => val.mail === mail && decryption(val.password) === pass);
   if(res){
-    const userNameDisplay = userInfo.map(val => {
-      if(val.mail !== mail){
-        return
-      }
-      return val.firstName;
-    })
-    landingPage(userNameDisplay);  
+    const userNameDisplay = userInfo.find(val => val.mail === mail)
+    landingPage(userNameDisplay.firstName);  
   }
   else{
     modalPopUp({modalHead: 'Warning!', modalBody: 'Login credentials mismatch!'});
@@ -246,8 +277,6 @@ const resetLoginForm = () => {
 // Main Content
 let defaultCard = document.querySelector('.card-one');
 let defaultCardChild = defaultCard.children[0];
-// document.querySelector('.nav-login').innerText = `Welcome ${}`
-// console.log(defaultCardChild[0]);
 const cards = document.querySelectorAll('.cards');
 cards.forEach(val => {
   val.addEventListener('mouseover', () => {

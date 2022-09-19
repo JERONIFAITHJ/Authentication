@@ -12,8 +12,16 @@ html{
 a{
     color: rgb(163, 159, 159) !important;
 }
-button{
+#main-content button{
     background-color: var(--primary-color) !important;
+}
+#main-content a{
+    text-decoration: none;
+    color: black !important;
+}
+#main-content a:visited{
+    text-decoration: none;
+    color: black !important;
 }
 .displayed{
     color: white !important;
@@ -52,10 +60,6 @@ button{
     height: 100%;
     background: linear-gradient(to bottom,#faf8f6, #f6e8df);
 }
-/* #carouselExampleCaptions{
-    width: 50% !important;
-    height: 40vh;
-} */
 #main-nav-cont{
     box-sizing: border-box;
     display: flex;
@@ -126,8 +130,6 @@ p, ul{
     flex: 1;
     opacity: 1 !important;
     transition: all 0.5s ease-out;
-    /* background-size: contain !important; */
-    /* transition-property: all; */
 }
 .card-one{
     background: url('https://assets.website-files.com/617fa48948c7ab24b715140e/6183bce7320d030e82c15028_hero_person-1.jpg');
@@ -172,10 +174,9 @@ p, ul{
     margin: auto;
     margin-top: 100px;
     margin-bottom: 100px;
-    background: rgb(243, 241, 236);
+    background: rgb(255, 255, 255);
     padding: 30px;
     border-radius: 20px;
-    /* box-shadow: 4px 4px 4px 4px rgba(225, 225, 225, 0.6); */
 }
 #categories h1{
     font-size: 45px;
@@ -223,10 +224,10 @@ p, ul{
     background-color: #c1db7f;
 }
 #data-div:hover{
-    outline: 5px solid rgb(191, 248, 106);
+    outline: 5px solid rgb(108, 137, 68);
     border: none;
     color: whitesmoke;
-    background-color: rgb(191, 248, 106);
+    background-color: rgb(108, 137, 68);
 }
 #arts-div{
     background-color: #efdde9;
@@ -260,7 +261,6 @@ p, ul{
     align-items: center;
     margin: auto;
     border-radius: 20px;
-    /* text-align: center; */
     background-color: white;
 }
 #skill-float{
